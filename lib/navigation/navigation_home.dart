@@ -104,14 +104,7 @@ class _Navigation_HomeState extends State<Navigation_Home> {
                   image: DecorationImage(
                       image: AssetImage(cars[index]), fit: BoxFit.cover),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              // child: Column(
-              //   children: [
-              //     Text(
-              //       "Bmw m5 320",
-              //       style: TextStyle(backgroundColor: Colors.white),
-              //     ),
-              //   ],
-              // )),
+
             ),
           ),
         )),

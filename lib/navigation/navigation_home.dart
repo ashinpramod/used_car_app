@@ -105,7 +105,7 @@ class _Navigation_HomeState extends State<Navigation_Home> {
                       image: AssetImage(cars[index]), fit: BoxFit.cover),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
 
-            ),
+                 ),
           ),
         )),
       ),

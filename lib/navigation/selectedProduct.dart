@@ -8,7 +8,7 @@ class Selected_Product extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          children: [Image.asset("assets/images/belkin-car-accessories-belkin-dual-car-charger-with-lightning-cable-20-watt-2-1-amp-per-port-28501791998027_1024x.webp"),
+          children: [Image.asset("assets/images/car-charger-with-lightning-cable-20-watt-2-1-amp-per-port-28501791998027_1024x.webp"),
           Text("Dual Port Car charger",style: TextStyle(fontSize: 20),),
           Text("Price : RS.100",style: TextStyle(fontSize: 20),),
           SizedBox(height: 50),

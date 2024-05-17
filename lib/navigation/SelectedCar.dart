@@ -11,7 +11,7 @@ class SelectedCar extends StatelessWidget {
       body: Center(
         child: Column(
           children: [Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-            image: DecorationImage(image: AssetImage("assets/images/Picsart_24-01-20_18-28-15-915.jpg"))
+            image: DecorationImage(image: AssetImage("assets/images/audiq7_front.jpg"))
           ),height: 300),
             SizedBox(height: 50),
             Container(

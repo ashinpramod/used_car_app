@@ -18,16 +18,16 @@ void main() async {
     ),
   );
 
-  runApp(MaterialApp(home: AddUserScreen()));
+  runApp(MaterialApp(home: AddData()));
 }
-class AddUserScreen extends StatefulWidget {
-  const AddUserScreen({Key? key}) : super(key: key);
+class AddData extends StatefulWidget {
+  const AddData({Key? key}) : super(key: key);
 
   @override
-  State<AddUserScreen> createState() => _AddUserScreenState();
+  State<AddData> createState() => _AddDataState();
 }
 
-class _AddUserScreenState extends State<AddUserScreen> {
+class _AddDataState extends State<AddData> {
   final _formKey = GlobalKey<FormState>();
   final _controllerName = TextEditingController();
   final _controllerPrice = TextEditingController();

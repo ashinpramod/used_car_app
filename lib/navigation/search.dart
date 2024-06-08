@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,46 +23,50 @@ void main() async {
 class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         appBar: AppBar(actions: [ SafeArea(
-          child: Column(children: [
-              Container(
-                width: 400,
-                height: 50,
-                decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
+          child: Column(children: [SizedBox(height: 20,),
+            Container(
+              width: 400,
+              height: 30,
+              decoration: BoxDecoration(
+                  // boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 1.0),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 1.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: TextField(
-                      onTap: () {
-                        showSearch(context: context, delegate: SearchItem());
-                      },
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                          ),
+                  padding: const EdgeInsets.all(4.0),
+                  child: TextField(
+                    onTap: () {
+                      showSearch(context: context, delegate: SearchItem());
+                    },
+                    expands: true, maxLines: null,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.grey,
                         ),
-                        hintText: "Tap to Search",
-                        suffixStyle: TextStyle(),
                       ),
-                      // cursorHeight: 20,
-                      // cursorColor: Colors.blue,
-                      // cursorRadius: Radius.circular(100),
+                      labelText: "Search here",
+                      suffixStyle: TextStyle(fontSize: 30),
                     ),
+                    // cursorHeight: 20,
+                    // cursorColor: Colors.blue,
+                    // cursorRadius: Radius.circular(100),
                   ),
                 ),
-              ),]),
-        )],),
+              ),
+            ),
+          ]),
+        ),
+        ],),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Cars_list').snapshots(),
           builder: (context, snapshot) {
@@ -76,163 +79,98 @@ class SearchPage extends StatelessWidget {
             }
 
             return ListView(
-              children: snapshot.data!.docs.map((document) {
-                Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
-                return Card(
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150,
-                            width: 130,
-                            child: Image.network(
-                              data['imageUrl'] ?? '',
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          Column(
+                children: snapshot.data!.docs.map((document) {
+                  Map<String, dynamic> data =
+                  document.data()! as Map<String, dynamic>;
+                  return GestureDetector(onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailScreen(myList.length)));}
+                    ,child: Card(
+                        child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                data['name'] ?? "no name",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              Container(
+                                height: 140,
+                                width: 140,
+                                child: Image.network(
+                                  data['imageUrl'] ?? '',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              Text(data['price'] ?? 'No Price'),
-                              Text(data['owners'] ?? 'No owners'),
-                              Text(data['transmission'] ?? 'No transmission'),
-                              Text(data['fuel'] ?? 'no fuel'),
-                              Text(data['kmsDriven'] ?? 'No kms'),
-                            ],
-                          )
-                        ]));
-              }).toList(),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [SizedBox(height: 15,),
+                                  Text(
+                                    data['name'] ?? "no name",
+                                    style: TextStyle(
+                                        fontSize: 19, fontWeight: FontWeight.bold),
+                                  ),SizedBox(height: 5,)
+                                  ,                        Text(data['price'] ?? 'No Price'),
+                                  // Text(data['owners'] ?? 'No owners'),
+                                  Text(data['transmission'] ?? 'No transmission'),
+                                  Text(data['fuel'] ?? 'no fuel'),
+                                  // Text(data['kmsDriven'] ?? 'No kms'),
+                                ],
+                              )
+                            ])),
+                  );
+                }).toList()
+        // body: StreamBuilder<QuerySnapshot>(
+        //   stream: FirebaseFirestore.instance.collection('Cars_list')
+        //       .snapshots(),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasError) {
+        //       return const Text('Something went wrong');
+        //     }
+        //
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const CircularProgressIndicator();
+        //     }
+        //
+        //     return ListView(
+              // children: snapshot.data!.docs.map((document) {
+              //   Map<String, dynamic> data =
+              //   document.data()! as Map<String, dynamic>;
+              //   return Card(
+              //       child: Row(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Container(
+              //               height: 150,
+              //               width: 130,
+              //               child: Image.network(
+              //                 data['imageUrl'] ?? '',
+              //                 fit: BoxFit.fill,
+              //               ),
+              //             ),
+              //             SizedBox(
+              //               width: 50,
+              //             ),
+              //             Column(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Text(
+              //                   data['name'] ?? "no name",
+              //                   style: TextStyle(
+              //                       fontSize: 18, fontWeight: FontWeight.bold),
+              //                 ),
+              //                 Text(data['price'] ?? 'No Price'),
+              //                 Text(data['owners'] ?? 'No owners'),
+              //                 Text(data['transmission'] ?? 'No transmission'),
+              //                 Text(data['fuel'] ?? 'no fuel'),
+              //                 Text(data['kmsDriven'] ?? 'No kms'),
+              //               ],
+              //             )
+              //           ]));
+              // }).toList(),
             );
           },
         ),
-    // StreamBuilder<QuerySnapshot>(
-  //       stream: FirebaseFirestore.instance.collection('Cars_list').snapshots(),
-  //   builder: (context, snapshot) {
-  //   if (snapshot.hasError) {
-  //   return const Text('Something went wrong');
-  //   }
-  //
-  //   if (snapshot.connectionState == ConnectionState.waiting) {
-  //   return const CircularProgressIndicator();
-  //   }
-  //
-  //   return ListView(
-  //   children: snapshot.data!.docs.map((document) {
-  //   Map<String, dynamic> data =
-  //   document.data()! as Map<String, dynamic>;
-  //   return
-  //       Column(children: [
-  //           SizedBox(height: 20),
-  //           Container(
-  //             width: 400,
-  //             height: 50,
-  //             decoration: BoxDecoration(
-  //                 boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
-  //                 color: Colors.white,
-  //                 borderRadius: BorderRadius.circular(50)),
-  //             child: Padding(
-  //               padding: const EdgeInsets.only(top: 8.0),
-  //               child: Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: TextField(
-  //                   onTap: () {
-  //                     showSearch(context: context, delegate: SearchItem());
-  //                   },
-  //                   decoration: InputDecoration(
-  //                     border: InputBorder.none,
-  //                     filled: true,
-  //                     fillColor: Colors.white,
-  //                     prefixIcon: Padding(
-  //                       padding: const EdgeInsets.only(bottom: 30),
-  //                       child: Icon(
-  //                         Icons.search,
-  //                         color: Colors.grey,
-  //                       ),
-  //                     ),
-  //                     hintText: "Tap to Search",
-  //                     suffixStyle: TextStyle(),
-  //                   ),
-  //                   // cursorHeight: 20,
-  //                   // cursorColor: Colors.blue,
-  //                   // cursorRadius: Radius.circular(100),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 20,
-  //           ),
-  //           Padding(
-  //             padding: const EdgeInsets.only(right: 260.0),
-  //             child: Text("Available cars!",
-  //                 style: GoogleFonts.poppins(
-  //                     fontSize: 17,
-  //                     color: Colors.black,
-  //                     fontWeight: FontWeight.bold)),
-  //           ),
-  //           SizedBox(height: 10),
-  //           SingleChildScrollView(
-  //             child: Container(
-  //                 height: 750,
-  //                 decoration: BoxDecoration(color: Colors.white),
-  //                 child: GridView.builder(
-  //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //                       crossAxisCount: 2,
-  //                       childAspectRatio: 1,
-  //                       mainAxisSpacing: 10,
-  //                       crossAxisSpacing: 10),
-  //                   itemCount: 5,
-  //                   itemBuilder: (contect, index) => GestureDetector(
-  //                     onTap: () {
-  //                       Navigator.push(
-  //                           context,
-  //                           MaterialPageRoute(
-  //                               builder: (context) => SelectedCar()));
-  //                     },
-  //                     child: Container(
-  //                       height: 300,
-  //                       decoration: BoxDecoration(color: Colors.grey.shade300),
-  //                       child: Column(children: [
-  //                         Container(
-  //                           alignment: Alignment.bottomCenter,
-  //                           decoration: BoxDecoration(
-  //                             image: DecorationImage(
-  //                                 image: NetworkImage(data['imageUrl']??'no image'),
-  //                                 fit: BoxFit.cover),
-  //                             color: Colors.black,
-  //                           ),
-  //                           height: 150,
-  //                         ),
-  //                         Text(data['name'] ?? 'no name',
-  //                           style: TextStyle(
-  //                               color: Colors.black,
-  //                               fontWeight: FontWeight.bold,
-  //                               fontSize: 20),
-  //                         ),
-  //                         Text(
-  //                           "price:Rs.2500000",
-  //                           style: TextStyle(color: Colors.black, fontSize: 15),
-  //                         ),
-  //                       ]),
-  //                     ),
-  //                   ),
-  //                 )),
-  //           ),
-  //         ]);}).toList()
-  //
-  //   );
-  // }
-  //       )
-    );}}
+      ),
+    );
+  }
+}
 
 final List<String> myList = [
   "Audi Q7",
@@ -287,21 +225,24 @@ class SearchItem extends SearchDelegate<String> {
     final suggestionsList = query.isEmpty
         ? myList
         : myList
-            .where((p) => p.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+        .where((p) => p.toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          close(context, suggestionsList[index]);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailScreen(myList
-                      .indexWhere((item) => item == suggestionsList[index]))));
-        },
-        title: Text(suggestionsList[index]),
-      ),
+      itemBuilder: (context, index) =>
+          ListTile(
+            onTap: () {
+              close(context, suggestionsList[index]);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DetailScreen(myList
+                              .indexWhere((item) =>
+                          item == suggestionsList[index]))));
+            },
+            title: Text(suggestionsList[index]),
+          ),
       itemCount: suggestionsList.length,
     );
   }
